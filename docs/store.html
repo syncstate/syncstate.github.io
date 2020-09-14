@@ -75,13 +75,10 @@
 <p><strong>Returns</strong></p>
 <p>(<em><code>Array</code></em>): An array with the following elements in order</p>
 <ol>
-<li><p>State at <code>path</code></p></li>
-<li><p>Setter for state with the following signature
-<br>
-<br>
-<a name="setdoc">
-<strong>setDoc</strong>
-</a></p>
+<li><p>State at <code>path</code>
+<a name="setdoc"></a></p></li>
+<li><p>Setter for state with the following signature</p>
+<p><strong>setDoc</strong></p>
 <p><strong>Arguments</strong></p>
 <ol>
 <li><code>callbackOrNewValue</code> <em>(Function | any)</em>: If you want to replace state at <code>path</code>, pass the newValue here or if you want to update some value inside the object or array at <code>path</code>, pass a callback function which receives the state at <code>path</code> to be updated.</li>
@@ -98,9 +95,15 @@ setTodos([{ <span class="hljs-attr">caption</span>: <span class="hljs-string">"H
 setTodos(<span class="hljs-function">(<span class="hljs-params">todos</span>) =&gt;</span> todos.push({ <span class="hljs-attr">caption</span>: <span class="hljs-string">"Hello"</span>, <span class="hljs-attr">done</span>: <span class="hljs-literal">false</span> })); <span class="hljs-comment">// pushes a new element to todos array</span>
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="getpatches"></a><a href="#getpatches" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>getPatches</h2>
-<p>Returns all the patches that have been applied to the document.</p>
+<p>Returns all the patches that have been applied to the document.
+<a name="subtree"></a></p>
 <p><strong>Arguments</strong></p>
-<p><code>*None*</code></p>
+<ol>
+<li><code>subtree</code> (<em>string):</em> The subtree that you want to fetch the state from. &quot;doc&quot; for user document.
+<blockquote>
+<p>Note: The subtree is where your document exists. The store you create using createDocStore has your document at &quot;doc&quot; subtree. You don't have to worry about other subtree for basic use cases. For user document, it needs to be &quot;doc&quot;.</p>
+</blockquote></li>
+</ol>
 <p><strong>Returns</strong></p>
 <p>(<em><code>Array</code></em>): Array of {patch, inversePatch}</p>
 <p><strong>Example</strong></p>
@@ -110,7 +113,7 @@ setTodos(<span class="hljs-function">(<span class="hljs-params">todos</span>) =&
 
 setDoc(<span class="hljs-function">(<span class="hljs-params">doc</span>) =&gt;</span> doc.counter++);
 
-<span class="hljs-built_in">console</span>.log(store.getPatches());
+<span class="hljs-built_in">console</span>.log(store.getPatches(<span class="hljs-string">"doc"</span>));
 <span class="hljs-comment">// [</span>
 <span class="hljs-comment">//  {</span>
 <span class="hljs-comment">//      patch: {</span>
@@ -129,19 +132,22 @@ setDoc(<span class="hljs-function">(<span class="hljs-params">doc</span>) =&gt;<
 <h2><a class="anchor" aria-hidden="true" id="getstate"></a><a href="#getstate" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>getState</h2>
 <p>Returns the document (root state)</p>
 <p><strong>Arguments</strong></p>
-<p><code>*None*</code></p>
+<ol>
+<li><code>subtree</code> (<em>string):</em> The <a href="#subtree">subtree</a> that you want to fetch the state from. &quot;doc&quot; for user document.</li>
+</ol>
 <p><strong>Returns</strong></p>
 <p>(<em><code>any</code></em>): document (root state)</p>
 <p><strong>Example</strong></p>
 <pre><code class="hljs css language-jsx"><span class="hljs-keyword">const</span> store = createDocStore({ <span class="hljs-attr">todos</span>: [], <span class="hljs-attr">filter</span>: <span class="hljs-string">"all"</span> });
 
-<span class="hljs-built_in">console</span>.log(store.getState());
+<span class="hljs-built_in">console</span>.log(store.getState(<span class="hljs-string">"doc"</span>));
 <span class="hljs-comment">//   { todos: [], filter: 'all' }</span>
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="getstateatpath"></a><a href="#getstateatpath" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>getStateAtPath</h2>
 <p>Returns the state at <code>path</code></p>
 <p><strong>Arguments</strong></p>
 <ol>
+<li><code>subtree</code> (<em>string):</em> The <a href="#subtree">subtree</a> that you want to fetch the state from. &quot;doc&quot; for user document.</li>
 <li><code>path</code> (<em>string?, default: &quot;&quot;</em>): The path to state that you want to fetch</li>
 </ol>
 <p><strong>Returns</strong></p>
@@ -149,13 +155,14 @@ setDoc(<span class="hljs-function">(<span class="hljs-params">doc</span>) =&gt;<
 <p><strong>Example</strong></p>
 <pre><code class="hljs css language-jsx"><span class="hljs-keyword">const</span> store = createDocStore({ <span class="hljs-attr">todos</span>: [], <span class="hljs-attr">filter</span>: <span class="hljs-string">"all"</span> });
 
-<span class="hljs-built_in">console</span>.log(store.getStateAtPath(<span class="hljs-string">"/filter"</span>));
+<span class="hljs-built_in">console</span>.log(store.getStateAtPath(<span class="hljs-string">"doc"</span>, <span class="hljs-string">"/filter"</span>));
 <span class="hljs-comment">//  'all'</span>
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="observe"></a><a href="#observe" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>observe</h2>
 <p>Observes changes at <code>path</code> and calls the listener function with the new changes/JSON patches</p>
 <p><strong>Arguments</strong></p>
 <ol>
+<li><p><code>subtree</code> (<em>string):</em> The <a href="#subtree">subtree</a> that you want to fetch the state from. &quot;doc&quot; for user document.</p></li>
 <li><p><code>path</code> (<em>string</em>): The path to state that you want to observe</p></li>
 <li><p><code>listener</code> (<em>Function</em>): listener which receives state at <code>path</code> and patches generated to update the document.</p></li>
 <li><p><code>depth</code> (<em>number?, default: 1</em>): The patches which are generated internally have a path property associated. This argument defines till what depth below <code>path</code> you should observe the changes.</p>
@@ -169,6 +176,7 @@ setDoc(<span class="hljs-function">(<span class="hljs-params">doc</span>) =&gt;<
 <p>(<em><code>dispose</code></em>): Dispose function, which you can call to stop observing</p>
 <p><strong>Example</strong></p>
 <pre><code class="hljs css language-jsx">store.observe(
+    <span class="hljs-string">"doc"</span>,
     <span class="hljs-string">"/todos"</span>,
     (todos, change) =&gt; {
         <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"todos has been updated"</span>);
@@ -182,6 +190,7 @@ setDoc(<span class="hljs-function">(<span class="hljs-params">doc</span>) =&gt;<
 <p>Intercepts changes at <code>path</code> and calls the listener function with the new changes/JSON patches where you can modify of stop the changes.</p>
 <p><strong>Arguments</strong></p>
 <ol>
+<li><code>subtree</code> (<em>string):</em> The <a href="#subtree">subtree</a> that you want to fetch the state from. &quot;doc&quot; for user document.</li>
 <li><code>path</code> (<em>string</em>): The path to state that you want to observe</li>
 <li><code>listener</code> (<em>Function</em>): listener which receives previous state at <code>path</code> and patches generated to update the document. You can return the updated change object or <code>null</code> to stop the update.</li>
 <li><code>depth</code> (<em>number?, default: 1</em>): Same as in <a href="#observe"><code>observe</code></a></li>
@@ -190,6 +199,7 @@ setDoc(<span class="hljs-function">(<span class="hljs-params">doc</span>) =&gt;<
 <p>(<em><code>dispose</code></em>): Dispose function, which you can call to stop intercepting</p>
 <p><strong>Example</strong></p>
 <pre><code class="hljs css language-jsx">store.intercept(
+    <span class="hljs-string">"doc"</span>,
   <span class="hljs-string">"/todos"</span>,
   (todos, change) =&gt; {
         <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Current value of todos"</span>, todos) <span class="hljs-comment">// before applying patch</span>
@@ -226,26 +236,23 @@ setDoc(<span class="hljs-function">(<span class="hljs-params">doc</span>) =&gt;<
 <h2><a class="anchor" aria-hidden="true" id="subscribe"></a><a href="#subscribe" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>subscribe</h2>
 <p>Same as <a href="https://redux.js.org/api/store#subscribelistener">Redux subscribe</a>. This is used to subscribe to the internal Redux store.</p>
 <h2><a class="anchor" aria-hidden="true" id="usesyncstate"></a><a href="#usesyncstate" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>useSyncState</h2>
-<blockquote>
-<p><strong>Note:</strong> This method is for advanced use cases. You might not need it unless you are creating a plugin</p>
-</blockquote>
 <p>In addition to <code>doc</code> which is a JSON document representing your app state, SyncState's internal Redux store contains documents for plugins too. Plugins keep their state in these documents.</p>
 <p>The root state of internal Redux store looks like this:</p>
-<pre><code class="hljs css language-tsx">{
-  // <span class="hljs-type">Document</span> containing app state
-    doc: {
-        state: <span class="hljs-meta">{...}</span>,
-        patches: [...]
+<pre><code class="hljs css language-jsx">{
+  <span class="hljs-comment">// Document containing app state</span>
+    <span class="hljs-attr">doc</span>: {
+        <span class="hljs-attr">state</span>: {...},
+        <span class="hljs-attr">patches</span>: [...]
     },
-  // <span class="hljs-type">Document</span> containing plugin1 state
-    plugin1: {
-        state: <span class="hljs-meta">{...}</span>,
-        patches: [...]
+  <span class="hljs-comment">// Document containing plugin1 state</span>
+    <span class="hljs-attr">plugin1</span>: {
+        <span class="hljs-attr">state</span>: {...},
+        <span class="hljs-attr">patches</span>: [...]
     },
-  // <span class="hljs-type">Document</span> containing plugin2 state
-    plugin2: {
-        state: <span class="hljs-meta">{...}</span>,
-        patches: [...]
+  <span class="hljs-comment">// Document containing plugin2 state</span>
+    <span class="hljs-attr">plugin2</span>: {
+        <span class="hljs-attr">state</span>: {...},
+        <span class="hljs-attr">patches</span>: [...]
     }
 }
 </code></pre>
